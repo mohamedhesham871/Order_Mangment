@@ -4,15 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domin.Models.identitys
+namespace Shared.Dtos.Customer
 {
-    public class Customer
+    public  class CustomerResultDto
     {
+
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
 
         public string UserId { get; set; } = string.Empty; // Foreign key to the AppUser table
-        public ICollection<Order> Orders { get; set; } = [];//navigation property to Orders
+
+        public IEnumerable<OrderDto> Orders { get; set; } = [];
     }
 }

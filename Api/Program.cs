@@ -1,12 +1,16 @@
 
 using Domin.Contract;
 using Domin.Models.identitys;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Persistence.Contexts;
 using Persistence.Repository;
 using service;
 using ServiceAbstraction;
+using Shared;
+using System.Text;
 
 
 namespace Api
@@ -33,9 +37,37 @@ namespace Api
             #region Services
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IProductService,ProductServices>();
-           
+            builder.Services.AddScoped<IAuthServices, AuthServices>();
+            builder.Services.AddScoped<ICustomerService, CustomerServices>();
+
+
 
             #endregion
+            #region Token information
+            builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(key: "JWToption"));
+
+            var JwtOptions = builder.Configuration.GetSection("JWToption").Get<JwtOptions>();
+
+            builder.Services.AddAuthentication(Options =>
+            {
+                Options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                Options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })//Check validation of token
+                .AddJwtBearer(Options =>
+                 Options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                 {
+                     ValidateIssuer = true,
+                     ValidateAudience = true,
+                     ValidateLifetime = true,
+                     ValidateIssuerSigningKey = true,
+
+
+                     ValidIssuer = JwtOptions.Issuer,
+                     ValidAudience = JwtOptions.Audience,
+                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtOptions.SecretKey))
+                 });
+            #endregion
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

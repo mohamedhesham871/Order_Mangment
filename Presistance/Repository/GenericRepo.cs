@@ -1,9 +1,11 @@
 ﻿using Domin.Contract;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Persistence.Contexts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -40,5 +42,15 @@ namespace Persistence.Repository
         {
              contexts.Set<TEntity>().Update(entity);
         }
+        public Task<List<TEntity>> GetAllIncludingAsync(
+               Expression<Func<TEntity, bool>> predicate,
+               Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include)
+        {
+            IQueryable<TEntity> query = contexts.Set<TEntity>();
+            query = include(query).Where(predicate);
+            return query.ToListAsync();
+        }
+
+
     }
 }
