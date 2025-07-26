@@ -22,7 +22,7 @@ namespace Domin.Models
         
         public string Address { get; set; } = string.Empty; // Address for delivery or billing
         
-        public string PaymentIntentId { get; set; } = string.Empty; 
+        public string ?PaymentIntentId { get; set; }  
         
         public int CustomerId { get; set; } // Foreign key to the Customer table
 

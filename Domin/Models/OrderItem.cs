@@ -16,7 +16,6 @@ namespace Domin.Models
         public int OrderId { get; set; }   // This is the foreign key to the Order table
         public int ProductId { get; set; } // This is the foreign key to the Product table
 
-        public ICollection<Product> Products { get; set; } = []; // navigation property to Product
 
 
 
