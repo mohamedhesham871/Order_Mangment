@@ -1,4 +1,4 @@
-﻿using Domin.Contract;
+using Domin.Contract;
 using Domin.Exceptions;
 using Domin.Models;
 using Domin.Models.identitys;
@@ -62,7 +62,8 @@ namespace service
                 .GetAllIncludingAsync(o => o.CustomerId == id,
                     include => include.Include(o => o.OrderItems));
 
-            var ordersDto = ordersOfCustomer.Select(order => new OrderDto
+            var ordersDto = ordersOfCustomer.Select(order => new OrderDtos
+
             {
                 OrderDate = order.OrderDate,
                 TotalAmount = order.TotalAmount,

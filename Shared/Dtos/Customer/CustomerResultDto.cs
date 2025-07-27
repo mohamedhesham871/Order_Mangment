@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Shared.Dtos.OrderDto;
 
 namespace Shared.Dtos.Customer
 {
@@ -15,6 +16,6 @@ namespace Shared.Dtos.Customer
 
         public string UserId { get; set; } = string.Empty; // Foreign key to the AppUser table
 
-        public IEnumerable<OrderDto> Orders { get; set; } = [];
+        public IEnumerable<OrderDtos> Orders { get; set; } = [];
     }
 }

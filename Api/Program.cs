@@ -1,4 +1,5 @@
 
+using Api.Middleware;
 using Domin.Contract;
 using Domin.Models.identitys;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -6,11 +7,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Persistence.Contexts;
+using Persistence.DataSeeding;
 using Persistence.Repository;
 using service;
 using ServiceAbstraction;
 using Shared;
 using System.Text;
+using System.Text.Json.Serialization;
 
 
 namespace Api
@@ -22,11 +25,11 @@ namespace Api
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+           
             #region Contexts
             builder.Services.AddDbContext<ApplicationDbContexts>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -39,7 +42,9 @@ namespace Api
             builder.Services.AddScoped<IProductService,ProductServices>();
             builder.Services.AddScoped<IAuthServices, AuthServices>();
             builder.Services.AddScoped<ICustomerService, CustomerServices>();
-
+            builder.Services.AddScoped<IOrderServices, OrderService>();
+            builder.Services.AddScoped<IInvoiceService, InvoicesService>();
+            builder.Services.AddScoped<IPaymentservice, PaymentService>();
 
 
             #endregion
@@ -69,6 +74,8 @@ namespace Api
             #endregion
 
             var app = builder.Build();
+            app.UseMiddleware<GlobalErrorHandlingMiddleware>();
+            SeedingRole.SeedingUser(app);
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -79,6 +86,7 @@ namespace Api
 
             app.UseHttpsRedirection();
 
+            app.UseAuthorization();
             app.UseAuthorization();
 
 
