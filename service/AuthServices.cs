@@ -20,7 +20,7 @@ namespace service
     {
         public async Task<UserResult> LogIn(UserLoginDto userLoginDto)
         {
-            var user =await manager.FindByNameAsync(userLoginDto.Email);
+            var user =await manager.FindByEmailAsync(userLoginDto.Email);
             if (user is null)
             {
                 throw new NotFoundException("User not found with this email address.");
