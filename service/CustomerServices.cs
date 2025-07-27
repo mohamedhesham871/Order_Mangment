@@ -1,4 +1,4 @@
-﻿using Domin.Contract;
+using Domin.Contract;
 using Domin.Exceptions;
 using Domin.Models;
 using Domin.Models.identitys;
@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using ServiceAbstraction;
 using Shared.Dtos;
 using Shared.Dtos.Customer;
-using Shared.Dtos.OrderDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,6 +63,7 @@ namespace service
                     include => include.Include(o => o.OrderItems));
 
             var ordersDto = ordersOfCustomer.Select(order => new OrderDtos
+
             {
                 OrderDate = order.OrderDate,
                 TotalAmount = order.TotalAmount,
