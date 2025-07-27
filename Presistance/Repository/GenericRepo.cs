@@ -33,11 +33,6 @@ namespace Persistence.Repository
             return await contexts.Set<TEntity>().FindAsync(id);
         }
 
-        public async Task<TEntity?> GetByIdAsync(string id)
-        {
-            return await contexts.Set<TEntity>().FindAsync(id);
-        }
-
         public void Update(TEntity entity)
         {
              contexts.Set<TEntity>().Update(entity);

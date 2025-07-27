@@ -18,15 +18,12 @@ namespace service
 {
     public class CustomerServices(IUnitOfWork unitOfWork):ICustomerService
     {
-        public async Task<CustomerResultDto> CreateCustomer([FromForm]CreateCustomerDto createCustomer,string UserId)
+        public async Task<CustomerResultDto> CreateCustomer(CreateCustomerDto createCustomer,string UserId)
         {
             if(createCustomer == null) {
                 throw new BadResquestException( "Customer data cannot be null");
             }
-            var res = await unitOfWork.GetRepository<Customer>().GetByIdAsync(createCustomer.Email);
-            if (res is not null)
-                throw new BadResquestException("This Email IS Already Exist, Please Try Another Email.");
-
+           
             //convert CreateCustomerDto to Customer entity
             var customer = new Customer
             {

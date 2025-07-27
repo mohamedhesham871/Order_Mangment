@@ -16,7 +16,6 @@ namespace Domin.Contract
         void Delete(T entity);
         Task<List<T>> GetAllAsync();
         Task<T> GetByIdAsync(int id);
-        Task<T> GetByIdAsync(string id);
         Task<List<T>> GetAllIncludingAsync(
                   Expression<Func<T, bool>> predicate,
                   Func<IQueryable<T>, IIncludableQueryable<T, object>> include);

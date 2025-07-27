@@ -17,7 +17,7 @@ namespace Presentation.Controller
     {
         [HttpPost]
         [Authorize(Roles = "Admin,Customer")]
-        public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomerDto customerDto)
+        public async Task<IActionResult> CreateCustomer([FromForm] CreateCustomerDto customerDto)
         {
             var UserId = User.FindFirstValue(claimType: ClaimTypes.NameIdentifier);
             var res = await service.CreateCustomer(customerDto, UserId!);
