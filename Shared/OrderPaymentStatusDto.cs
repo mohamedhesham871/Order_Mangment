@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Shared
+{
+    public  enum OrderPaymentStatusDto
+    {   
+       
+        Pending = 0,
+        PaymentReceived = 1,
+        PaymentFailed = 2,
+        Refunded = 3,
+    }
+    
+}
